@@ -25,7 +25,7 @@ pipeline {
         stage('Test Container') {
             steps {
                 echo "🧪 Running tests (if available)..."
-                sh 'docker-compose run --rm web pytest || echo "⚠️ No tests found, skipping..."'
+                sh 'docker run --rm web pytest || echo "⚠️ No tests found, skipping..."'
             }
         }
 
