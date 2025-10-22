@@ -17,5 +17,8 @@ RUN chmod +x /app/wait-for-db.sh
 
 # Copy app code
 COPY app .
+# Expose FastAPI port
+EXPOSE 8000
 
-# Default command will come from docker-compose.yml
+# Default command (works even without docker-compose)
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
