@@ -70,7 +70,10 @@ pipeline {
         stage('Clean Up') {
             steps {
                 echo "🧹 Cleaning up old Docker images and containers..."
-                sh 'docker system prune -af || true'
+                sh '''
+                    docker image prune -f
+                    docker container prune -f
+                '''
             }
         }
     }
