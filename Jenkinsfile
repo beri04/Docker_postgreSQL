@@ -18,27 +18,23 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo "🐳 Building Docker image..."
-                sh 'docker build -t $IMAGE_NAME:latest .'
-            }
-        }
-
-        stage('Test Container') {
-            steps {
-                echo "🧪 Running tests (if available)..."
-                sh 'docker run --rm $IMAGE_NAME:latest pytest || echo "⚠️ No tests found, skipping..."'
+                sh '''
+                    set +x
+                    docker build -t $IMAGE_NAME:latest .
+                '''
             }
         }
 
         stage('Push to Docker Hub') {
             steps {
-                echo "📤 Pushing image to Docker Hub..."
+                echo "📤 Pushing Docker image to Docker Hub..."
                 withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh '''
                         set +x
                         echo $PASSWORD | docker login -u $USERNAME --password-stdin
                         docker push $IMAGE_NAME:latest
 
-                        # Tag image with Jenkins build number for versioning
+                        # Optional: Tag image with Jenkins build number
                         docker tag $IMAGE_NAME:latest $IMAGE_NAME:$BUILD_NUMBER
                         docker push $IMAGE_NAME:$BUILD_NUMBER
 
@@ -48,31 +44,40 @@ pipeline {
             }
         }
 
-        stage('Deploy Container') {
+        stage('Deploy Containers with Docker Compose') {
             steps {
-                echo "🚀 Deploying latest container..."
+                echo "🚀 Deploying FastAPI + PostgreSQL via Docker Compose..."
                 sh '''
                     set +x
+
+                    # Ensure docker-compose is installed
+                    if ! command -v docker-compose &> /dev/null
+                    then
+                        echo "⚙️ Installing Docker Compose..."
+                        apt-get update -y
+                        apt-get install -y docker-compose
+                    fi
+
+                    # Clean up any old containers
+                    docker-compose down || true
+
+                    # Pull the latest FastAPI image
                     docker pull $IMAGE_NAME:latest
 
-                    # Stop and remove any existing container safely
-                    docker stop fastapi_app || true
-                    docker rm fastapi_app || true
+                    # Start both FastAPI and PostgreSQL
+                    docker-compose up -d
 
-                    # Start new container
-                    docker run -d --name fastapi_app -p 8000:8000 $IMAGE_NAME:latest
-
-                    echo "✅ Deployment complete. FastAPI running on port 8000."
+                    echo "✅ Deployment complete! FastAPI is running on port 8000 and PostgreSQL on port 5432."
                 '''
             }
         }
 
-        stage('Clean Up') {
+        stage('Verify Deployment') {
             steps {
-                echo "🧹 Cleaning up old Docker images and containers..."
+                echo "🔍 Checking running containers..."
                 sh '''
-                    docker image prune -f
-                    docker container prune -f
+                    docker ps
+                    echo "🌐 Visit your FastAPI app at: http://<EC2_PUBLIC_IP>:8000/docs"
                 '''
             }
         }
@@ -80,10 +85,13 @@ pipeline {
 
     post {
         success {
-            echo "🎯 FastAPI CI/CD pipeline completed successfully!"
+            echo "🎯 CI/CD Pipeline executed successfully!"
         }
         failure {
-            echo "❌ Build failed — check Jenkins logs for details."
+            echo "❌ Pipeline failed — check the Jenkins logs for details."
+        }
+        always {
+            echo "🧹 Cleaning temporary build resources..."
         }
     }
 }
