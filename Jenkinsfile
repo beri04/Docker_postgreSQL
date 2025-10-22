@@ -2,7 +2,7 @@ pipeline{
     agent any
 
     environment{
-        IMAGE_NAME = "saks04/fastapi-Backend"
+        IMAGE_NAME = "saks04/fastapi-backend"
         DOCKERHUB_CREDENTIALS = "dockerhub-cred"
     }
 
