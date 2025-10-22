@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: saksham04
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fastapi_app
+    depends_on:
+      - db
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_NAME=postgres
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=saksham04
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app/main.py:/app/main.py
+      - ./app/requirements.txt:/app/requirements.txt
+    # ✅ Use sh -c to properly run the script inside container
+    command: ["sh", "-c", "/app/wait-for-db.sh db uvicorn main:app --host 0.0.0.0 --port 8000 --reload"]
+
+volumes:
+  pg_data:
