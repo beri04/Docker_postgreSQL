@@ -44,6 +44,13 @@ pipeline {
             }
         }
 
+        stage('Check Compose') {
+            steps {
+                echo "⚙️ Checking Docker Compose availability..."
+                sh 'docker-compose --version'
+            }
+        }
+
         stage('Deploy Containers with Docker Compose') {
             steps {
                 echo "🚀 Deploying FastAPI + PostgreSQL via Docker Compose..."
