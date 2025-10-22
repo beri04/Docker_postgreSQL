@@ -51,33 +51,29 @@ pipeline {
             }
         }
 
-        stage('Deploy Containers with Docker Compose') {
+        stage('Deploy Container') {
             steps {
                 echo "🚀 Deploying FastAPI + PostgreSQL via Docker Compose..."
                 sh '''
                     set +x
 
-                    # Ensure docker-compose is installed
-                    if ! command -v docker-compose &> /dev/null
-                    then
-                        echo "⚙️ Installing Docker Compose..."
-                        apt-get update -y
-                        apt-get install -y docker-compose
+                    echo "⚙️ Checking Docker Compose availability..."
+                    if docker compose version > /dev/null 2>&1; then
+                        echo "✅ Docker Compose is already available."
+                    else
+                        echo "⚠️ Docker Compose not found. Installing..."
+                        apt-get update && apt-get install -y docker-compose || true
                     fi
 
-                    # Clean up any old containers
-                    docker-compose down || true
+                    echo "🧱 Starting deployment stack..."
+                    docker compose down || true
+                    docker compose up -d --build
 
-                    # Pull the latest FastAPI image
-                    docker pull $IMAGE_NAME:latest
-
-                    # Start both FastAPI and PostgreSQL
-                    docker-compose up -d
-
-                    echo "✅ Deployment complete! FastAPI is running on port 8000 and PostgreSQL on port 5432."
+                    echo "✅ FastAPI + PostgreSQL deployed successfully on port 8000."
                 '''
-            }
+            }   
         }
+
 
         stage('Verify Deployment') {
             steps {
