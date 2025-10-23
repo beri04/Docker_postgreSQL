@@ -31,6 +31,7 @@ Code Repo	              GitHub (Webhook Trigger)
 7️⃣ Verify Stage → App accessible via EC2 Public IP :8000/docs
 
 # 🧾 Project Structure
+```
 fastapi-backend/
 │
 ├── app/
@@ -44,14 +45,16 @@ fastapi-backend/
 ├── Jenkinsfile
 ├── requirements.txt
 └── README.md
-
+```
 # 🚀 Deployment Steps (Short)
 **1. Clone repo**
+```
 git clone https://github.com/saks04/fastapi-backend.git
 cd fastapi-backend
+```
 
 **2. Build and run locally (optional)**
-docker-compose up --build
+```docker-compose up --build```
 
 **3. CI/CD handled by Jenkins on EC2**
     → Pulls latest code
@@ -71,13 +74,16 @@ AWS EC2 as a persistent host for Jenkins and FastAPI services
 
 Real-world debugging of build failures, Docker credential issues, and webhooks
 
+
 # 🏷️ Badges
-
-
-
-
-
-
+[![Docker Image](https://img.shields.io/badge/DockerHub-saks04%2Ffastapi--backend-blue?logo=docker)](https://hub.docker.com/r/saks04/fastapi-backend)
+![Build](https://img.shields.io/badge/Build-Passing-brightgreen)
+![Docker](https://img.shields.io/badge/Docker-Automated-blue?logo=docker)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-green?logo=fastapi)
+![AWS](https://img.shields.io/badge/Deployed_on-AWS-orange?logo=amazon-aws)
+![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue?logo=postgresql)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
+![Python](https://img.shields.io/badge/Python-3.10+-yellow?logo=python)
 
 
 # 🧑‍💻 Author
