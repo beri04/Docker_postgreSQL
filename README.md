@@ -6,9 +6,9 @@ Every push to GitHub triggers Jenkins → builds Docker image → scans → push
 # 🧩 Architecture Overview
 ![alt text](<image.png>)
 
-(Diagram: AWS EC2 → Docker Engine → Jenkins → Docker Hub / FastAPI + Swagger UI / PostgreSQL)
 
 # 🛠️ Tech Stack
+```
 Layer	                  Tools Used
 Cloud & Infra	          AWS EC2, Docker Engine
 CI/CD	                  Jenkins (Declarative Pipeline)
@@ -16,9 +16,10 @@ Backend	                  FastAPI, Swagger UI
 Database                  PostgreSQL
 Container Registry	      Docker Hub
 Code Repo	              GitHub (Webhook Trigger)
-
+```
 
 # ⚙️ Pipeline Flow
+```
 1️⃣ Code Commit → Developer pushes to GitHub
 2️⃣ Webhook Trigger → Jenkins pipeline starts automatically
 3️⃣ Build Stage → Jenkins builds Docker image of FastAPI app
@@ -29,6 +30,7 @@ Code Repo	              GitHub (Webhook Trigger)
  • Runs PostgreSQL container
  • Connects both in a private Docker network
 7️⃣ Verify Stage → App accessible via EC2 Public IP :8000/docs
+```
 
 # 🧾 Project Structure
 ```
@@ -95,6 +97,6 @@ Backend & DevOps Engineer | FastAPI • Docker • Jenkins • AWS
 [LinkedIn](https://www.linkedin.com/in/saksham-beri-32543b301/) | 
 [Docker Hub](https://hub.docker.com/u/saks04)
 
-📜 License
+# 📜 License
 
 MIT License © 2025 Saksham Beri
