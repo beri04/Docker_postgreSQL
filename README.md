@@ -8,7 +8,6 @@ Every push to GitHub triggers Jenkins → builds Docker image → scans → push
 
 
 # 🛠️ Tech Stack
-<h2>🛠️ Tech Stack</h2>
 
 <table>
   <thead style="background-color:#2e2e2e;color:white;">
