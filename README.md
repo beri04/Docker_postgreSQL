@@ -8,15 +8,25 @@ Every push to GitHub triggers Jenkins → builds Docker image → scans → push
 
 
 # 🛠️ Tech Stack
-```
-Layer	                  Tools Used
-Cloud & Infra	          AWS EC2, Docker Engine
-CI/CD	                  Jenkins (Declarative Pipeline)
-Backend	                  FastAPI, Swagger UI
-Database                  PostgreSQL
-Container Registry	      Docker Hub
-Code Repo	              GitHub (Webhook Trigger)
-```
+<h2>🛠️ Tech Stack</h2>
+
+<table>
+  <thead style="background-color:#2e2e2e;color:white;">
+    <tr>
+      <th>Layer</th>
+      <th>Tools Used</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Cloud & Infra</td><td>AWS EC2, Docker Engine</td></tr>
+    <tr><td>CI/CD</td><td>Jenkins (Declarative Pipeline)</td></tr>
+    <tr><td>Backend</td><td>FastAPI, Swagger UI</td></tr>
+    <tr><td>Database</td><td>PostgreSQL</td></tr>
+    <tr><td>Container Registry</td><td>Docker Hub</td></tr>
+    <tr><td>Code Repo</td><td>GitHub (Webhook Trigger)</td></tr>
+  </tbody>
+</table>
+
 
 # ⚙️ Pipeline Flow
 ```
@@ -51,12 +61,13 @@ fastapi-backend/
 # 🚀 Deployment Steps (Short)
 **1. Clone repo**
 ```
-git clone https://github.com/saks04/fastapi-backend.git
-cd fastapi-backend
+git clone https://github.com/beri04/Docker_postgreSQL
 ```
 
 **2. Build and run locally (optional)**
 ```docker-compose up --build```
+           **or**
+```docker compose up --build```
 
 **3. CI/CD handled by Jenkins on EC2**
     → Pulls latest code
@@ -65,16 +76,11 @@ cd fastapi-backend
     → Deploys FastAPI + PostgreSQL containers
 
 # 🧠 Key Learnings
-
-End-to-end DevOps automation using Jenkins Declarative Pipeline
-
-Multi-container orchestration via Docker Compose
-
-Secure database connection inside private Docker network
-
-AWS EC2 as a persistent host for Jenkins and FastAPI services
-
-Real-world debugging of build failures, Docker credential issues, and webhooks
+  → End-to-end DevOps automation using Jenkins Declarative Pipeline
+  → Multi-container orchestration via Docker Compose
+  → Secure database connection inside private Docker network
+  → AWS EC2 as a persistent host for Jenkins and FastAPI services
+  → Real-world debugging of build failures, Docker credential issues, and webhooks
 
 
 # 🏷️ Badges
@@ -89,11 +95,10 @@ Real-world debugging of build failures, Docker credential issues, and webhooks
 
 
 # 🧑‍💻 Author
-
 Saksham Beri
 Backend & DevOps Engineer | FastAPI • Docker • Jenkins • AWS
 
-# 🔗 Profile
+**🔗 Profile**
 [LinkedIn](https://www.linkedin.com/in/saksham-beri-32543b301/) | 
 [Docker Hub](https://hub.docker.com/u/saks04)
 
